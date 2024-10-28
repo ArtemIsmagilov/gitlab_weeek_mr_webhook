@@ -1,0 +1,6 @@
+{
+  "event": "{{object_kind}}",
+  "title": "{{object_attributes.title}}",
+  "url": "{{object_attributes.url}}",
+  "action": "{{object_attributes.action}}"
+}

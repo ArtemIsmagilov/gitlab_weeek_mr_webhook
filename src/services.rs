@@ -16,6 +16,7 @@ pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Respon
                             caps["weeek_task_id"].parse::<u64>().unwrap(),
                             mr.url.clone(),
                         );
+                        info!("Run async task with push mr.");
                         HttpResponse::Accepted()
                     }
                     None => {

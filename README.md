@@ -15,6 +15,7 @@
   ```
 - going test coverage.
   ```bash
+  cargo install cargo-llvm-cov
   cargo llvm-cov --test integration_test
   ```
 - look html test coverage.

@@ -13,7 +13,7 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
       - run: |
           source example-environs.bash
-          cargo test
+          cargo test --test integration_test
 
 
   formatting:

@@ -21,3 +21,13 @@ pub fn unlink_title_json() -> serde_json::Value {
       "action": "merge"
     })
 }
+
+pub fn extra_json() -> serde_json::Value {
+    json!({
+      "event": "merge_request",
+      "title": "Fix bug.",
+      "url": "http://127.0.0.1:3000/merge_requests/3",
+      "action": "merge",
+      "extra": "extra"
+    })
+}

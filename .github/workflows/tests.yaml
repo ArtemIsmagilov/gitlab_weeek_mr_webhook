@@ -7,22 +7,11 @@ on:
 jobs:
   test:
     name: cargo test
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
       - run: |
           source example-environs.bash
+          cargo check
+          cargo fmt --all -- --check
           cargo test --test integration_test
-
-
-  formatting:
-    name: cargo fmt
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          components: rustfmt
-      - name: Rustfmt Check
-        uses: actions-rust-lang/rustfmt@v1

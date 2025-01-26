@@ -26,8 +26,8 @@ impl WeeekClient {
 
     pub async fn weeek_push_comment(
         &self,
-        task_weeek_id: u64,
-        url: String,
+        task_weeek_id: usize,
+        url: &str,
     ) -> Result<reqwest::Response, reqwest::Error> {
         self.0
             .post(format!(
@@ -43,7 +43,7 @@ impl WeeekClient {
                         "content": [
                             {
                                 "type": "text",
-                                "text": &url
+                                "text": url
                             }
                         ]
                     }

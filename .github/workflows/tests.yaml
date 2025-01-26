@@ -3,15 +3,32 @@ on:
   push:
     branches:
       - "main"
+env:
+  RUST_LOG: "debug"
+
+  X_GITLAB_TOKEN: "example"
+
+  WEEEK_URL: "http://127.0.0.1:8080"
+  WEEEK_EMAIL: "example"
+  WEEEK_PASSWORD: "example"
+
+  APP_HOST: "127.0.0.1"
+  APP_PORT: "8080"
+  APP_WORKERS: "4"
 
 jobs:
   test:
-    name: cargo test
-    runs-on: [ubuntu-latest, macos-latest]
+    name: Check
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          set -a && . example.env && set +a
-          cargo check
-          cargo fmt --all -- --check
-          cargo test --test integration_test
+      - name: Checkout sources
+        uses: actions/checkout@v4
+      - name: Cargo check
+        run: cargo check
+      - name: Cargo format check
+        run: cargo fmt --all -- --check
+      - name: Cargo test
+        run: cargo test --test integration_test

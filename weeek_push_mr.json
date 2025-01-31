@@ -1,0 +1,17 @@
+{
+  "parentId": null,
+  "content": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "{{url}}"
+          }
+        ]
+      }
+    ]
+  }
+}

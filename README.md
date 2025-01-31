@@ -17,20 +17,20 @@
 - going test.
 
   ```bash
-  cargo test --test integration_test
+  cargo test
   ```
 
 - going test coverage.
 
   ```bash
   cargo install cargo-llvm-cov
-  cargo llvm-cov --test integration_test
+  cargo llvm-cov
   ```
 
 - look html test coverage.
 
   ```bash
-  cargo llvm-cov --test integration_test --html
+  cargo llvm-cov --html
   open target/llvm-cov/html/index.html
   ```
 

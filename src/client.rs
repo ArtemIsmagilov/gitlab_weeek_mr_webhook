@@ -1,56 +1,25 @@
-use crate::constants::{WEEEK_EMAIL, WEEEK_PASSWORD};
+use minijinja::render;
 use reqwest::Client;
-use serde_json::json;
-use std::time::Duration;
+use serde_json::{json, Value};
 
-pub struct WeeekClient(Client);
+use crate::constants::{WEEEK_EMAIL, WEEEK_PASSWORD, WEEEK_PUSH_MR};
 
-impl WeeekClient {
-    pub fn new() -> Self {
-        Self(
-            Client::builder()
-                .cookie_store(true)
-                .timeout(Duration::new(5, 0))
-                .build()
-                .unwrap(),
-        )
-    }
+pub async fn weeek_login(ac: &Client) -> Result<reqwest::Response, reqwest::Error> {
+    ac.post("https://api.weeek.net/auth/login")
+        .json(&json!({"email": &*WEEEK_EMAIL, "password": &*WEEEK_PASSWORD}))
+        .send()
+        .await
+}
 
-    pub async fn weeek_login(&self) -> Result<reqwest::Response, reqwest::Error> {
-        self.0
-            .post("https://api.weeek.net/auth/login")
-            .json(&json!({"email": &*WEEEK_EMAIL, "password": &*WEEEK_PASSWORD}))
-            .send()
-            .await
-    }
-
-    pub async fn weeek_push_comment(
-        &self,
-        task_weeek_id: usize,
-        url: &str,
-    ) -> Result<reqwest::Response, reqwest::Error> {
-        self.0
-            .post(format!(
-                "https://api.weeek.net/ws/277820/tm/tasks/{task_weeek_id}/comments"
-            ))
-            .json(&json!({
-            "parentId": null,
-            "content": {
-                "type": "doc",
-                "content": [
-                    {
-                        "type": "paragraph",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": url
-                            }
-                        ]
-                    }
-                ]
-            }
-            }))
-            .send()
-            .await
-    }
+pub async fn weeek_push_comment(
+    ac: &Client,
+    task_weeek_id: usize,
+    url: &str,
+) -> Result<reqwest::Response, reqwest::Error> {
+    ac.post(format!(
+        "https://api.weeek.net/ws/277820/tm/tasks/{task_weeek_id}/comments"
+    ))
+    .json(&serde_json::from_str::<Value>(&render!(WEEEK_PUSH_MR, url)).unwrap())
+    .send()
+    .await
 }

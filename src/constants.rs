@@ -15,6 +15,7 @@ pub static WEEEK_EMAIL: LazyLock<String> =
     LazyLock::new(|| var("WEEEK_EMAIL").expect("Should be exists weeek email env."));
 pub static WEEEK_PASSWORD: LazyLock<String> =
     LazyLock::new(|| var("WEEEK_PASSWORD").expect("Should be exists weeek password env."));
+pub const WEEEK_PUSH_MR: &str = include_str!("../weeek_push_mr.json");
 
 pub static APP_HOST: LazyLock<String> =
     LazyLock::new(|| var("APP_HOST").expect("Should be exists host env."));

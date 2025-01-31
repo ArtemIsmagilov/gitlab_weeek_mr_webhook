@@ -22,7 +22,7 @@ pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Respon
         info!("Merge request attributes does not match event: '{}' and action: '{}'. Expected event: merge_request, action: merge", mr.event, mr.action);
         return HttpResponse::PreconditionFailed();
     }
-    let weeek_ids: Vec<usize> = RE_WEEEK_TASK_IDS
+    let weeek_ids: Vec<_> = RE_WEEEK_TASK_IDS
         .captures_iter(&mr.title)
         .map(|c| {
             let (_, [weeek_id]) = c.extract();

@@ -14,7 +14,7 @@ env:
 
   APP_HOST: "127.0.0.1"
   APP_PORT: "8080"
-  APP_WORKERS: "4"
+  APP_WORKERS: "2"
 
 jobs:
   test:
@@ -31,4 +31,4 @@ jobs:
       - name: Cargo format check
         run: cargo fmt --all -- --check
       - name: Cargo test
-        run: cargo test --test integration_test
+        run: cargo test

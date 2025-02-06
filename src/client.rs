@@ -13,7 +13,7 @@ pub async fn weeek_login(ac: &Client) -> Result<reqwest::Response, reqwest::Erro
 
 pub async fn weeek_push_comment(
     ac: &Client,
-    task_weeek_id: usize,
+    task_weeek_id: &usize,
     url: &str,
 ) -> Result<reqwest::Response, reqwest::Error> {
     ac.post(format!(

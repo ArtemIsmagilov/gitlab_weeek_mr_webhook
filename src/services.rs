@@ -1,32 +1,24 @@
-use actix_web::{post, web, HttpRequest, HttpResponse, Responder};
+use actix_web::{get, post, web, HttpRequest, HttpResponse, Responder};
 use log::info;
 
 use crate::constants::RE_WEEEK_TASK_IDS;
 use crate::structures::MergeRequest;
-use crate::utils::{is_valid_token, push_mr};
+use crate::utils::{auth_token, push_mr};
 
 #[post("/")]
 pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Responder {
-    let token = match req.headers().get("X-Gitlab-Token") {
-        Some(t) => t,
-        None => {
-            info!("Missing header X-Gitlab-Token");
-            return HttpResponse::PreconditionFailed();
-        }
-    };
-    if !is_valid_token(token) {
-        info!("X-Gitlab-Token header is not valid");
+    if !auth_token(&req) {
         return HttpResponse::PreconditionFailed();
     };
     if mr.event != "merge_request" || mr.action != "merge" {
         info!("Merge request attributes does not match event: '{}' and action: '{}'. Expected event: merge_request, action: merge", mr.event, mr.action);
         return HttpResponse::PreconditionFailed();
     }
-    let weeek_ids: Vec<_> = RE_WEEEK_TASK_IDS
+    let weeek_ids: Vec<usize> = RE_WEEEK_TASK_IDS
         .captures_iter(&mr.title)
         .map(|c| {
             let (_, [weeek_id]) = c.extract();
-            weeek_id.parse::<usize>().unwrap()
+            weeek_id.parse().unwrap()
         })
         .collect();
     if weeek_ids.is_empty() {
@@ -38,4 +30,12 @@ pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Respon
     }
     push_mr(weeek_ids, mr.url.clone());
     HttpResponse::Accepted()
+}
+
+#[get("/healthcheck")]
+pub async fn healthcheck(req: HttpRequest) -> impl Responder {
+    if !auth_token(&req) {
+        return HttpResponse::PreconditionFailed();
+    };
+    HttpResponse::Ok()
 }

@@ -29,7 +29,7 @@ pub async fn add_mrs_to_weeek(task_weeek_ids: Vec<usize>, url: String) {
     for response_push_mr in join_all(
         task_weeek_ids
             .iter()
-            .map(|id| weeek_push_comment(&ac, *id, &url)),
+            .map(|id| weeek_push_comment(&ac, id, &url)),
     )
     .await
     {

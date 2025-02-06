@@ -1,12 +1,14 @@
 use actix_web::http::header::ContentType;
+use actix_web::http::StatusCode;
 use actix_web::{test, App};
 
 use gitlab_weeek_mr_webhook::constants::X_GITLAB_TOKEN;
-use gitlab_weeek_mr_webhook::services::index;
+use gitlab_weeek_mr_webhook::services::{healthcheck, index};
 
 pub mod support;
 use support::{currect_json, extra_json, unlink_title_json, wrong_json};
 
+// test index service
 #[actix_web::test]
 async fn test_index_wrong_json() {
     let app = test::init_service(App::new().service(index)).await;
@@ -16,7 +18,7 @@ async fn test_index_wrong_json() {
         .set_json(wrong_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
-    assert_eq!(resp.status(), 400);
+    assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
 }
 
 #[actix_web::test]
@@ -28,7 +30,7 @@ async fn test_index_no_gitlab_token_header() {
         .set_json(currect_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
-    assert_eq!(resp.status(), 412);
+    assert_eq!(resp.status(), StatusCode::PRECONDITION_FAILED);
 }
 
 #[actix_web::test]
@@ -41,7 +43,7 @@ async fn test_index_no_correct_gitlab_token_header() {
         .set_json(currect_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
-    assert_eq!(resp.status(), 412);
+    assert_eq!(resp.status(), StatusCode::PRECONDITION_FAILED);
 }
 
 #[actix_web::test]
@@ -54,7 +56,7 @@ async fn test_index_unlink_title() {
         .set_json(unlink_title_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
-    assert_eq!(resp.status(), 412);
+    assert_eq!(resp.status(), StatusCode::PRECONDITION_FAILED);
 }
 
 #[actix_web::test]
@@ -67,7 +69,7 @@ async fn test_index_extra_fields() {
         .set_json(extra_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
-    assert_eq!(resp.status(), 412);
+    assert_eq!(resp.status(), StatusCode::PRECONDITION_FAILED);
 }
 
 #[actix_web::test]
@@ -80,5 +82,35 @@ async fn test_index_success() {
         .set_json(currect_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
-    assert_eq!(resp.status(), 202);
+    assert_eq!(resp.status(), StatusCode::ACCEPTED);
+}
+// test healthcheck service
+#[actix_web::test]
+async fn test_healtcheck_no_gitlab_token_header() {
+    let app = test::init_service(App::new().service(healthcheck)).await;
+    let req = test::TestRequest::get().uri("/healthcheck").to_request();
+    let resp = test::call_service(&app, req).await;
+    assert_eq!(resp.status(), StatusCode::PRECONDITION_FAILED);
+}
+
+#[actix_web::test]
+async fn test_healtcheck_no_correct_gitlab_token_header() {
+    let app = test::init_service(App::new().service(healthcheck)).await;
+    let req = test::TestRequest::get()
+        .uri("/healthcheck")
+        .insert_header(("X-Gitlab-Token", "wrong token"))
+        .to_request();
+    let resp = test::call_service(&app, req).await;
+    assert_eq!(resp.status(), StatusCode::PRECONDITION_FAILED);
+}
+
+#[actix_web::test]
+async fn test_healtcheck_success() {
+    let app = test::init_service(App::new().service(healthcheck)).await;
+    let req = test::TestRequest::get()
+        .uri("/healthcheck")
+        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN.as_str()))
+        .to_request();
+    let resp = test::call_service(&app, req).await;
+    assert_eq!(resp.status(), StatusCode::OK);
 }

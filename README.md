@@ -48,3 +48,5 @@
 - [Gitlab Webhook](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html)
 - [Mocking Rust with mockall](https://blog.logrocket.com/mocking-rust-mockall-alternatives/)
 - [Create linux service](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
+- [Nginx location](https://server-gu.ru/nginx-location/)
+- [Simple deploy Gunicorn](https://docs.gunicorn.org/en/latest/deploy.html)

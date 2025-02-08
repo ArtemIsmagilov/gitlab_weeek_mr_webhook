@@ -43,6 +43,26 @@
   cargo run
   ```
 
+## Deploy with docker compose
+
+- Create docker.env and start services
+
+  ```bash
+  docker compose up
+  ```
+
+## Deploy with systemd
+
+- Rewrite api.service, create local.env and start service
+
+  ```bash
+  cp api.service /etc/systemd/system/api.service
+  systemctl daemon-reload
+  systemctl start api.service
+  systemctl status api.service
+
+  ```
+
 ## Articals
 
 - [Gitlab Webhook](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html)

@@ -3,7 +3,7 @@ services:
     image: "rust"
     working_dir: "/app"
     volumes:
-      - "./:/app/:ro"
+      - ".:/app/:ro"
       - "/app/target/"
     env_file: "docker.env"
     command: ["cargo", "run", "--release"]

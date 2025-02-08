@@ -50,3 +50,4 @@
 - [Create linux service](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 - [Nginx location](https://server-gu.ru/nginx-location/)
 - [Simple deploy Gunicorn](https://docs.gunicorn.org/en/latest/deploy.html)
+- [Docker compos](https://docs.docker.com/reference/compose-file/)

@@ -2,6 +2,7 @@
 Description=Gitlab Weeek integration daemon
 
 [Service]
+User=example
 WorkingDirectory=/absolute_path/gitlab_weeek_mr_webhook/
 ExecStart=bash -c "\
 set -a && . local.env && set +a \

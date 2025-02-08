@@ -1,33 +1,16 @@
-use std::env::var;
 use std::sync::LazyLock;
 
 use regex::Regex;
 
 pub static RE_WEEEK_TASK_IDS: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\[(\d+)\]").expect("Should be valid compiled regex."));
+pub const X_GITLAB_TOKEN: &str = env!("X_GITLAB_TOKEN");
 
-pub static X_GITLAB_TOKEN: LazyLock<String> =
-    LazyLock::new(|| var("X_GITLAB_TOKEN").expect("Should be exists gitlab token env."));
-
-pub static WEEEK_URL: LazyLock<String> =
-    LazyLock::new(|| var("WEEEK_URL").expect("Should be exists weeek url env."));
-pub static WEEEK_EMAIL: LazyLock<String> =
-    LazyLock::new(|| var("WEEEK_EMAIL").expect("Should be exists weeek email env."));
-pub static WEEEK_PASSWORD: LazyLock<String> =
-    LazyLock::new(|| var("WEEEK_PASSWORD").expect("Should be exists weeek password env."));
+pub const WEEEK_URL: &str = env!("WEEEK_URL");
+pub const WEEEK_EMAIL: &str = env!("WEEEK_EMAIL");
+pub const WEEEK_PASSWORD: &str = env!("WEEEK_PASSWORD");
 pub const WEEEK_PUSH_MR: &str = include_str!("../weeek_push_mr.json");
 
-pub static APP_HOST: LazyLock<String> =
-    LazyLock::new(|| var("APP_HOST").expect("Should be exists host env."));
-pub static APP_PORT: LazyLock<u16> = LazyLock::new(|| {
-    var("APP_PORT")
-        .expect("Should be exists port env.")
-        .parse()
-        .unwrap()
-});
-pub static APP_WORKERS: LazyLock<usize> = LazyLock::new(|| {
-    var("APP_WORKERS")
-        .expect("Should be exists workers env.")
-        .parse()
-        .unwrap()
-});
+pub const APP_HOST: &str = env!("APP_HOST");
+pub const APP_PORT: &str = env!("APP_PORT");
+pub const APP_WORKERS: &str = env!("APP_WORKERS");

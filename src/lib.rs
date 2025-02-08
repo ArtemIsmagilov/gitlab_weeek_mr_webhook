@@ -23,8 +23,8 @@ pub async fn run() -> std::io::Result<()> {
             .service(index)
             .service(healthcheck)
     })
-    .bind((APP_HOST.as_str(), *APP_PORT))?
-    .workers(*APP_WORKERS)
+    .bind((APP_HOST, APP_PORT.parse().unwrap()))?
+    .workers(APP_WORKERS.parse().unwrap())
     .run()
     .await
 }

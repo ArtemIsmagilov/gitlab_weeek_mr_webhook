@@ -5,7 +5,7 @@ Description=Gitlab Weeek integration daemon
 WorkingDirectory=/absolute_path/gitlab_weeek_mr_webhook/
 ExecStart=bash -c "\
 set -a && . local.env && set +a \
-&& ./target/release/gitlab_weeek_mr_webhook \
+&& target/release/gitlab_weeek_mr_webhook \
 "
 
 [Install]

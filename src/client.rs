@@ -6,7 +6,7 @@ use crate::constants::{WEEEK_EMAIL, WEEEK_PASSWORD, WEEEK_PUSH_MR};
 
 pub async fn weeek_login(ac: &Client) -> Result<reqwest::Response, reqwest::Error> {
     ac.post("https://api.weeek.net/auth/login")
-        .json(&json!({"email": &*WEEEK_EMAIL, "password": &*WEEEK_PASSWORD}))
+        .json(&json!({"email": WEEEK_EMAIL, "password": WEEEK_PASSWORD}))
         .send()
         .await
 }

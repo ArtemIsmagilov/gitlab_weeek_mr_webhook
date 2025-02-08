@@ -53,7 +53,11 @@
 
 ## Deploy with systemd
 
-- Rewrite api.service, create local.env and start service
+- Rewrite api.service, create local.env , build project and start service
+
+  ```bash
+  cargo build --release
+  ```
 
   ```bash
   cp api.service /etc/systemd/system/api.service

@@ -41,6 +41,8 @@ pub async fn add_mrs_to_weeek(task_weeek_ids: Vec<usize>, url: String) {
                         "Response after push merge request return status code != 200: {}",
                         r.status()
                     )
+                } else {
+                    info!("Successfully pushed merge request to Weeek.");
                 }
             }
         }

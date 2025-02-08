@@ -52,7 +52,7 @@ async fn test_index_unlink_title() {
     let req = test::TestRequest::post()
         .uri("/")
         .insert_header(ContentType::json())
-        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN.as_str()))
+        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN))
         .set_json(unlink_title_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
@@ -65,7 +65,7 @@ async fn test_index_extra_fields() {
     let req = test::TestRequest::post()
         .uri("/")
         .insert_header(ContentType::json())
-        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN.as_str()))
+        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN))
         .set_json(extra_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
@@ -78,7 +78,7 @@ async fn test_index_success() {
     let req = test::TestRequest::post()
         .uri("/")
         .insert_header(ContentType::json())
-        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN.as_str()))
+        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN))
         .set_json(currect_json())
         .to_request();
     let resp = test::call_service(&app, req).await;
@@ -109,7 +109,7 @@ async fn test_healtcheck_success() {
     let app = test::init_service(App::new().service(healthcheck)).await;
     let req = test::TestRequest::get()
         .uri("/healthcheck")
-        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN.as_str()))
+        .insert_header(("X-Gitlab-Token", X_GITLAB_TOKEN))
         .to_request();
     let resp = test::call_service(&app, req).await;
     assert_eq!(resp.status(), StatusCode::OK);

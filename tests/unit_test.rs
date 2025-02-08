@@ -28,6 +28,6 @@ mod tests {
             .find_iter("1[12] [12kl12] [9.] [3] ")
             .map(|m| m.as_str())
             .collect();
-        assert_eq!(result, vec!["[12]", "[3]"]);
+        assert_eq!(result, ["[12]", "[3]"]);
     }
 }

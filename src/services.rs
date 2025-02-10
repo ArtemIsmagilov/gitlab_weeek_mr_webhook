@@ -1,5 +1,6 @@
 use actix_web::{get, post, web, HttpRequest, HttpResponse, Responder};
 use log::info;
+use url::Url;
 
 use crate::constants::RE_WEEEK_TASK_IDS;
 use crate::structures::MergeRequest;
@@ -10,8 +11,25 @@ pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Respon
     if !auth_token(&req) {
         return HttpResponse::PreconditionFailed();
     };
-    if mr.event != "merge_request" || mr.action != "merge" {
-        info!("Merge request attributes does not match event: '{}' and action: '{}'. Expected event: merge_request, action: merge", mr.event, mr.action);
+    if mr.event != "merge_request" {
+        info!(
+            "Merge request attribute does not match. event: {}. Expected event: merge_request.",
+            mr.event
+        );
+        return HttpResponse::PreconditionFailed();
+    }
+    if mr.action != "merge" {
+        info!(
+            "Merge request attribute does not match. action: {}. Expected event: merge.",
+            mr.action
+        );
+        return HttpResponse::PreconditionFailed();
+    }
+    if Url::parse(&mr.url).is_err() {
+        info!(
+            "Merge request attribute does not match. url: {}. Expected valid url.",
+            mr.url
+        );
         return HttpResponse::PreconditionFailed();
     }
     let weeek_ids: Vec<usize> = RE_WEEEK_TASK_IDS

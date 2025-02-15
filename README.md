@@ -43,6 +43,15 @@
   cargo run
   ```
 
+## Manual testing
+
+- run docker with gitlab, pass username `root` and password from container
+
+```bash
+cd gitlab
+docker exec -it container_id 'Password:' /etc/gitlab/initial_root_password
+```
+
 ## Deploy with docker compose
 
 - Create docker.env and start services
@@ -70,6 +79,7 @@
 ## Articals
 
 - [Gitlab Webhook](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html)
+- [Gitlab Docker](https://docs.gitlab.com/ee/install/docker/)
 - [Mocking Rust with mockall](https://blog.logrocket.com/mocking-rust-mockall-alternatives/)
 - [Create linux service](https://www.shubhamdipt.com/blog/how-to-create-a-systemd-service-in-linux/)
 - [Nginx location](https://server-gu.ru/nginx-location/)

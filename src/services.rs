@@ -7,10 +7,11 @@ use crate::structures::MergeRequest;
 use crate::utils::{auth_token, push_mr};
 
 #[post("/")]
-pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Responder {
+pub async fn index(req: HttpRequest, mr_input: web::Json<MergeRequest>) -> impl Responder {
     if !auth_token(&req) {
         return HttpResponse::PreconditionFailed();
     };
+    let mr = mr_input.into_inner();
     if mr.event != "merge_request" {
         info!(
             "Merge request attribute does not match. event: {}. Expected event: merge_request.",
@@ -46,7 +47,7 @@ pub async fn index(req: HttpRequest, mr: web::Json<MergeRequest>) -> impl Respon
         );
         return HttpResponse::PreconditionFailed();
     }
-    push_mr(weeek_ids, mr.url.clone());
+    push_mr(weeek_ids, mr.url);
     HttpResponse::Accepted()
 }
 

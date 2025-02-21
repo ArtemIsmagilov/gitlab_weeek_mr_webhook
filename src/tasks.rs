@@ -7,7 +7,7 @@ use reqwest::Client;
 use crate::client::{weeek_login, weeek_push_comment};
 
 pub async fn add_mrs_to_weeek(task_weeek_ids: Vec<usize>, url: String) {
-    info!("Running task with task_weeek_id: {task_weeek_ids:?} and url: {url}.");
+    info!("Running task with task_weeek_ids: {task_weeek_ids:?} and url: {url}.");
     let ac = Client::builder()
         .cookie_store(true)
         .timeout(Duration::new(5, 0))

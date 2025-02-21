@@ -73,7 +73,6 @@ docker exec -it container_id 'Password:' /etc/gitlab/initial_root_password
   systemctl daemon-reload
   systemctl start api.service
   systemctl status api.service
-
   ```
 
 ## Articals

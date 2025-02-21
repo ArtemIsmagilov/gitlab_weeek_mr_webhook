@@ -54,7 +54,8 @@ pub async fn index(req: HttpRequest, mr_input: web::Json<MergeRequest>) -> impl 
 #[get("/healthcheck")]
 pub async fn healthcheck(req: HttpRequest) -> impl Responder {
     if !auth_token(&req) {
-        return HttpResponse::PreconditionFailed();
-    };
-    HttpResponse::Ok()
+        HttpResponse::PreconditionFailed()
+    } else {
+        HttpResponse::Ok()
+    }
 }

@@ -1,6 +1,6 @@
-use actix_web::http::header::ContentType;
 use actix_web::http::StatusCode;
-use actix_web::{test, App};
+use actix_web::http::header::ContentType;
+use actix_web::{App, test};
 
 use gitlab_weeek_mr_webhook::constants::X_GITLAB_TOKEN;
 use gitlab_weeek_mr_webhook::services::{healthcheck, index};

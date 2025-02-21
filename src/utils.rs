@@ -1,5 +1,5 @@
-use actix_web::rt::spawn;
 use actix_web::HttpRequest;
+use actix_web::rt::spawn;
 use log::info;
 
 use crate::constants::X_GITLAB_TOKEN;

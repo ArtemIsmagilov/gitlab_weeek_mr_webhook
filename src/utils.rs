@@ -19,7 +19,8 @@ pub fn auth_token(req: &HttpRequest) -> bool {
     };
     if token != X_GITLAB_TOKEN {
         info!("X-Gitlab-Token header is not valid");
-        return false;
-    };
-    true
+        false
+    } else {
+        true
+    }
 }
